@@ -3,8 +3,8 @@ Sentiment Stock Market — Flask Backend
 Custom lexicon-based sentiment analysis (no external NLP deps needed)
 """
 
-import random, time, math, threading
-from flask import Flask, jsonify, request
+import random, time, math, threading,webbrowser,os
+from flask import Flask, jsonify, request,send_from_directory
 
 app = Flask(__name__)
 
@@ -283,5 +283,15 @@ def options_handler(p):
     from flask import Response
     return Response(status=200)
 
+@app.route("/")
+def serve_game():
+    folder = os.path.dirname(os.path.abspath(__file__))
+    return send_from_directory(folder, "index.html")
+
 if __name__ == "__main__":
-    app.run(port=5050, debug=False)
+    print("\n🚀 Starting SentimentEX...")
+    print("📈 Opening game in your browser at http://localhost:5050")
+    print("🛑 To stop the server, press CTRL + C\n")
+    threading.Timer(1.2, lambda: webbrowser.open("http://localhost:5050")).start()
+    port = int(os.environ.get("PORT", 5050))
+app.run(host="0.0.0.0", port=port, debug=False)
