@@ -6,7 +6,7 @@
 <title>SentimentEX — The Sentiment Stock Exchange</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Techz+Mono&family=Syne:wght@400;600;700;800&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Syne:wght@400;600;700;800&display=swap');
 
   :root {
     --bg:       #080b10;
@@ -19,7 +19,7 @@
     --yellow:   #ffd600;
     --muted:    #4a5e72;
     --text:     #c8dae8;
-    --mono:     'Share Techz Mono', monospace;
+    --mono:     'Share Tech Mono', monospace;
     --sans:     'Syne', sans-serif;
   }
 
@@ -467,7 +467,7 @@
         <span class="chart-title">📈 Price History</span>
         <div class="chart-filters" id="chart-filters">
           <button class="filter-btn active" onclick="setFilter('ALL',this)">ALL</button>
-          <button class="filter-btn" onclick="setFilter('Techzz',this)">Techzz</button>
+          <button class="filter-btn" onclick="setFilter('Tech',this)">TECH</button>
           <button class="filter-btn" onclick="setFilter('Energy',this)">ENERGY</button>
           <button class="filter-btn" onclick="setFilter('Finance',this)">FIN</button>
           <button class="filter-btn" onclick="setFilter('Health',this)">HEALTH</button>
@@ -507,22 +507,22 @@
 const API = window.location.origin + '/api';
 
 // ─── State ───────────────────────────────────────────────────────────────
-const SECTORS = ['Techz','Energy','Finance','Health','Retail'];
+const SECTORS = ['Tech','Energy','Finance','Health','Retail'];
 const SECTOR_COLORS = {
-  Techz:    '#00e5ff',
+  Tech:    '#00e5ff',
   Energy:  '#ffd600',
   Finance: '#00ff87',
   Health:  '#ff6ec7',
   Retail:  '#ff8c42',
 };
 const INITIAL_CASH = 10000;
-const INITIAL_PRICES = {Techz:150, Energy:80, Finance:120, Health:200, Retail:60};
+const INITIAL_PRICES = {Tech:150, Energy:80, Finance:120, Health:200, Retail:60};
 
 let cash = INITIAL_CASH;
-let holdings = {Techz:0, Energy:0, Finance:0, Health:0, Retail:0};
-let avgBuyPrice = {Techz:0, Energy:0, Finance:0, Health:0, Retail:0};
+let holdings = {Tech:0, Energy:0, Finance:0, Health:0, Retail:0};
+let avgBuyPrice = {Tech:0, Energy:0, Finance:0, Health:0, Retail:0};
 let prices = {...INITIAL_PRICES};
-let priceHistory = {Techz:[150],Energy:[80],Finance:[120],Health:[200],Retail:[60]};
+let priceHistory = {Tech:[150],Energy:[80],Finance:[120],Health:[200],Retail:[60]};
 let activeFilter = 'ALL';
 let leaderboard = [
   {name:'ALGO_BOT_3', val:11240},
@@ -559,11 +559,11 @@ const lineChart = new Chart(chartCtx, {
     responsive: true, maintainAspectRatio: true,
     animation: { duration: 400 },
     plugins: {
-      legend: { labels: { usePointStyle: true, padding: 16, font: { family: 'Share Techz Mono', size: 11 } } }
+      legend: { labels: { usePointStyle: true, padding: 16, font: { family: 'Share Tech Mono', size: 11 } } }
     },
     scales: {
-      x: { ticks: { font: { family: 'Share Techz Mono', size: 10 } } },
-      y: { ticks: { font: { family: 'Share Techz Mono', size: 10 }, callback: v => '$'+v.toFixed(0) } }
+      x: { ticks: { font: { family: 'Share Tech Mono', size: 10 } } },
+      y: { ticks: { font: { family: 'Share Tech Mono', size: 10 }, callback: v => '$'+v.toFixed(0) } }
     }
   }
 });
@@ -586,8 +586,8 @@ const barChart = new Chart(barCtx, {
     animation: { duration: 400 },
     plugins: { legend: { display: false } },
     scales: {
-      x: { ticks: { font: { family: 'Share Techz Mono', size: 11 } } },
-      y: { ticks: { font: { family: 'Share Techz Mono', size: 10 }, callback: v => '$'+v.toFixed(0) } }
+      x: { ticks: { font: { family: 'Share Tech Mono', size: 11 } } },
+      y: { ticks: { font: { family: 'Share Tech Mono', size: 10 }, callback: v => '$'+v.toFixed(0) } }
     }
   }
 });
@@ -786,14 +786,14 @@ function applyUpdate(data) {
   addFeed(`📰 "${headline.substring(0,50)}…"`, '');
 
   // update charts
-  updaTechzarts();
+  updateCharts();
   renderPortfolio();
   updateTicker(oldPrices);
   updateLeaderboard();
 }
 
 // ─── Charts update ─────────────────────────────────────────────────────
-function updaTechzarts() {
+function updateCharts() {
   const maxLen = Math.max(...SECTORS.map(s => priceHistory[s].length));
   const labels = Array.from({length: maxLen}, (_, i) => i.toString());
   lineChart.data.labels = labels;
@@ -819,7 +819,7 @@ function setFilter(f, btn) {
   activeFilter = f;
   document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  updaTechzarts();
+  updateCharts();
 }
 
 // ─── Ticker ────────────────────────────────────────────────────────────
@@ -860,17 +860,17 @@ function updateLeaderboard() {
 async function resetGame() {
   try { await fetch(`${API}/reset`, {method:'POST'}); } catch(e) {}
   cash = INITIAL_CASH;
-  holdings = {Techz:0,Energy:0,Finance:0,Health:0,Retail:0};
-  avgBuyPrice = {Techz:0,Energy:0,Finance:0,Health:0,Retail:0};
+  holdings = {Tech:0,Energy:0,Finance:0,Health:0,Retail:0};
+  avgBuyPrice = {Tech:0,Energy:0,Finance:0,Health:0,Retail:0};
   prices = {...INITIAL_PRICES};
-  priceHistory = {Techzz:[150],Energy:[80],Finance:[120],Health:[200],Retail:[60]};
+  priceHistory = {Tech:[150],Energy:[80],Finance:[120],Health:[200],Retail:[60]};
   document.getElementById('news-archive').innerHTML = '';
   document.getElementById('activity-feed').innerHTML = '';
   document.getElementById('active-news-card').className = 'news-card neu';
   document.getElementById('news-headline-text').textContent = 'Press NEXT NEWS to begin trading';
   document.getElementById('hdr-tick').textContent = '0';
   leaderboard[3].val = INITIAL_CASH;
-  updaTechzarts(); renderPortfolio(); updateTicker(null); updateLeaderboard();
+  updateCharts(); renderPortfolio(); updateTicker(null); updateLeaderboard();
   toast('↺ Game reset!', 'info');
 }
 
@@ -888,7 +888,7 @@ async function resetGame() {
   } catch(e) {
     toast('Backend offline — using local simulation', 'error');
   }
-  updaTechzarts();
+  updateCharts();
   renderPortfolio();
   updateTicker(INITIAL_PRICES);
   updateLeaderboard();
