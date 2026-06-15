@@ -467,7 +467,7 @@
         <span class="chart-title">📈 Price History</span>
         <div class="chart-filters" id="chart-filters">
           <button class="filter-btn active" onclick="setFilter('ALL',this)">ALL</button>
-          <button class="filter-btn" onclick="setFilter('Tech',this)">TECH</button>
+          <button class="filter-btn" onclick="setFilter('Techz',this)">Techz</button>
           <button class="filter-btn" onclick="setFilter('Energy',this)">ENERGY</button>
           <button class="filter-btn" onclick="setFilter('Finance',this)">FIN</button>
           <button class="filter-btn" onclick="setFilter('Health',this)">HEALTH</button>
@@ -863,7 +863,7 @@ async function resetGame() {
   holdings = {Tech:0,Energy:0,Finance:0,Health:0,Retail:0};
   avgBuyPrice = {Tech:0,Energy:0,Finance:0,Health:0,Retail:0};
   prices = {...INITIAL_PRICES};
-  priceHistory = {Tech:[150],Energy:[80],Finance:[120],Health:[200],Retail:[60]};
+  priceHistory = {Techz:[150],Energy:[80],Finance:[120],Health:[200],Retail:[60]};
   document.getElementById('news-archive').innerHTML = '';
   document.getElementById('activity-feed').innerHTML = '';
   document.getElementById('active-news-card').className = 'news-card neu';
